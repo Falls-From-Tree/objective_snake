@@ -19,9 +19,9 @@ def confirm_input():  # helper for int_decision, confirms player's choice
 
 
 def int_decision(text=None, min=None, max=None):  # modular method for integer
+    if text is not None:
+        print(text)
     while(True):                                  # decisions, returns int
-        if text is not None:
-            print(text)
         try:
             decision = int(input('> '))
             if ((min is None or decision >= min) &
@@ -29,9 +29,9 @@ def int_decision(text=None, min=None, max=None):  # modular method for integer
                 if confirm_input():
                     return decision
             else:
-                print('///invalid///\n> ')
+                print('///invalid///')
         except ValueError:
-            print('///invalid///\n> ')
+            print('///invalid///')
 
 
 def title():  # display title art
@@ -39,26 +39,25 @@ def title():  # display title art
 
 
 def choose_gem(player):  # initilize a gem's base stats
-    print('\nchoose your gemstone:\n',
-          '\n0) Morganite - the Philosopher - 15pp',
-          '\n1) Sapphire - the Advocate - 14pp',
-          '\n2) Lapis Lazuli - the Planner - 13pp',
-          '\n3) Agate - the Superintendent - 12pp',
-          '\n4) Aquamarine - the Inquisitor - 11pp',
-          '\n5) Jasper - the Intendent - 10pp',
-          '\n6) Topaze - the Specialist - 9pp',
-          '\n7) Zircon - the Attorney - 8pp',
-          '\n8) Peridot - the Technician - 7pp',
-          '\n9) Amethyst - the Trooper - 6pp',
-          '\n10) Carnelian - the Stormtrooper - 5pp',
-          '\n11) Nephrite - the Aviator - 4pp',
-          '\n12) Rutile - the Enforcer - 3pp',
-          '\n13) Ruby - the Guardian - 2pp',
-          '\n14) Pearl - the Servant - 1pp',
-          '\n15) Bismuth - the Builder - 0pp'
-          )
+    choices = """\nchoose your gemstone:
+                 \n0) Morganite - the Philosopher - 15pp
+                 \n1) Sapphire - the Advocate - 14pp
+                 \n2) Lapis Lazuli - the Planner - 13pp
+                 \n3) Agate - the Superintendent - 12pp
+                 \n4) Aquamarine - the Inquisitor - 11pp
+                 \n5) Jasper - the Intendent - 10pp
+                 \n6) Topaze - the Specialist - 9pp
+                 \n7) Zircon - the Attorney - 8pp
+                 \n8) Peridot - the Technician - 7pp
+                 \n9) Amethyst - the Trooper - 6pp
+                 \n10) Carnelian - the Stormtrooper - 5pp
+                 \n11) Nephrite - the Aviator - 4pp
+                 \n12) Rutile - the Enforcer - 3pp
+                 \n13) Ruby - the Guardian - 2pp
+                 \n14) Pearl - the Servant - 1pp
+                 \n15) Bismuth - the Builder - 0pp"""
 
-    gem_num = int_decision(min=0, max=15)
+    gem_num = int_decision(choices, min=0, max=15)
 
     player.add_PP(gem_num - 15)
     if gem_num == 0:
@@ -111,13 +110,12 @@ def choose_gem(player):  # initilize a gem's base stats
 
 
 def choose_era(player):  # modify base stats for era
-    print('\nchoose your era:\n',
-          '\n0) Era One',
-          '\n1) Era Two',
-          '\n2) Era Three'
-          )
+    choices = """\nchoose your era:
+                 \n0) Era One
+                 \n1) Era Two'
+                 \n2) Era Three"""
 
-    era_num = int_decision(min=0, max=2)
+    era_num = int_decision(choices, min=0, max=2)
 
     if era_num == 0:
         pass
@@ -128,12 +126,11 @@ def choose_era(player):  # modify base stats for era
 
 
 def choose_diamond(player):  # modify base stats for diamond
-    print('\nchoose your diamond:\n',
-          '\n0) Blue Diamond',
-          '\n1) Yellow Diamond'
-          )
+    choices = """\nchoose your diamond:
+                 \n0) Blue Diamond
+                 \n1) Yellow Diamond"""
 
-    diamond_num = int_decision(min=0, max=1)
+    diamond_num = int_decision(choices, min=0, max=1)
 
     if diamond_num == 0:
         pass
