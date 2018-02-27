@@ -27,7 +27,7 @@ def int_decision(text=None, min=None, max=None):
             print('///invalid///')
 
 
-def title():
+def title():  # eventually will produce some sort of art
     print('\ngempire\n\n')
 
 
