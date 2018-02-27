@@ -4,7 +4,7 @@ import Gems
 def confirm_input():
     while(True):
         print('confirm? (y/n)')
-        option = input('>')
+        option = input('> ')
         if option == 'y':
             return True
         elif option == 'n':
@@ -22,9 +22,9 @@ def int_decision(text=None, min=None, max=None):
                 if confirm_input():
                     return decision
             else:
-                print('///invalid///')
+                print('///invalid///\n> ')
         except ValueError:
-            print('///invalid///')
+            print('///invalid///\n> ')
 
 
 def title():  # eventually will produce some sort of art
@@ -32,7 +32,7 @@ def title():  # eventually will produce some sort of art
 
 
 def choose_gem(players, player):
-    print('choose your gemstone:\n',
+    print('\nchoose your gemstone:\n',
           '\n0) Morganite - the Philosopher - 15pp',
           '\n1) Sapphire - the Advocate - 14pp',
           '\n2) Lapis Lazuli - the Planner - 13pp',
@@ -104,7 +104,7 @@ def choose_gem(players, player):
 
 
 def choose_era(players, player):
-    print('choose your era:\n',
+    print('\nchoose your era:\n',
           '\n0) Era One',
           '\n1) Era Two',
           '\n2) Era Three'
@@ -121,7 +121,7 @@ def choose_era(players, player):
 
 
 def choose_diamond(players, player):
-    print('choose your diamond:\n',
+    print('\nchoose your diamond:\n',
           '\n0) Blue Diamond',
           '\n1) Yellow Diamond'
           )
@@ -145,7 +145,7 @@ def init_players():
                range(int_decision('How many players?', min=1))]
 
     for i in range(len(players)):  # loops through all players
-        print('Player {}, you have {} Proficiency Points to spend\n'.format(
+        print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
               i, players[i].add_PP())
               )
 
