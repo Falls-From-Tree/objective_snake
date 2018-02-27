@@ -1,4 +1,4 @@
-import BaseGem
+import Gems
 
 
 def confirm_input():
@@ -110,13 +110,13 @@ def choose_gem(players, player):
         pass
 
 
-def init_players(num_players):
-    players = [BaseGem() for i in range(
-               int_decision('How many players?', min=1))]
+def init_players():
+    players = [Gems.BaseGem() for i in
+               range(int_decision('How many players?', min=1))]
 
-    for i in range(num_players):  # loops through all players
+    for i in range(len(players)):  # loops through all players
         print('Player {}, you have {} Proficiency Points to spend\n'.format(
-              i, players[i].attributes['PP'])
+              i, players[i].add_PP())
               )
 
         gem_init(players, i)  # initilizes a player's gems
