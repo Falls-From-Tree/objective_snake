@@ -19,9 +19,9 @@ def confirm_input():  # helper for int_decision, confirms player's choice
 
 
 def int_decision(text=None, min=None, max=None):  # modular method for integer
-    if text is not None:
+    if text is not None:                          # decisions, returns int
         print(text)
-    while(True):                                  # decisions, returns int
+    while(True):
         try:
             decision = int(input('> '))
             if ((min is None or decision >= min) &

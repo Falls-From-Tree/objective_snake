@@ -8,7 +8,7 @@ utilizing child classes.
 
 
 class BaseGem():
-    def __init__(self):
+    def __init__(self):  # add weapon size, possible abilities
         self.__attributes = dict(
             serial=None,
             stone=None,
