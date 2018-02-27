@@ -55,7 +55,7 @@ def title():
     print('\ngempire\n\n')
 
 
-def choose_gem():
+def choose_gem(players, player):
     print('choose your gemstone:\n',
           '\n0) Morganite - the Philosopher - 15pp',
           '\n1) Sapphire - the Advocate - 14pp',
@@ -75,10 +75,8 @@ def choose_gem():
           '\n15) Bismuth - the Builder - 0pp'
           )
 
-    return int_decision(min=0, max=15)
+    gem_num = int_decision(min=0, max=15)
 
-
-def gem_init(players, player, gem_num):
     if gem_num == 0:
         players[player].attributes['stone'] = 'Morganite'
         players[player].attributes['PP'] -= 15
@@ -116,41 +114,35 @@ def gem_init(players, player, gem_num):
         players[player].attributes['CPR'] += 1
         players[player].attributes['threePR'] += 1
 
-    elif option == 7:
+    elif gem_num == 7:
         pass
-    elif option == 8:
+    elif gem_num == 8:
         pass
-    elif option == 9:
+    elif gem_num == 9:
         pass
-    elif option == 10:
+    elif gem_num == 10:
         pass
-    elif option == 11:
+    elif gem_num == 11:
         pass
-    elif option == 12:
+    elif gem_num == 12:
         pass
-    elif option == 13:
+    elif gem_num == 13:
         pass
-    elif option == 14:
+    elif gem_num == 14:
         pass
-    elif option == 15:
+    elif gem_num == 15:
         pass
-    else:
-        print("\n///please pick a valid number///\n")
 
 
 def init_players(num_players):
-    players = [BaseGem()] * num_players
+    players = [BaseGem() for i in range(
+               int_decision('How many players?', min=1))]
 
     for i in range(num_players):
         print('Player {}, you have {} Proficiency Points to spend\n'.format(
               i, players[i].attributes['PP'])
               )
 
-        gem_init(players, i, choose_gem())  # COMBINE CHOOSE AND INIT
+        choose_gem(players, i)  # COMBINE CHOOSE AND INIT
 
     return players
-
-
-def dec_players():
-    num_players = int_decision('How many players?', min=1)
-    return init_players(num_players)
