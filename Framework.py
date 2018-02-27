@@ -1,28 +1,4 @@
-class BaseGem():
-    def __init__(self):
-        self.attributes = dict(
-            serial=None,
-            stone=None,
-            era=None,
-            health=36,
-            size=1,
-            movement_speed=8,
-            arms=2,
-            caste_rank=None,
-            action_slots=2,
-            PP=31,
-            SPR=0,
-            homo=False,
-            hetro=False,
-            CPR=0,
-            attacking=False,
-            blocking=False,
-            disarming=False,
-            onePR=0,
-            twoPR=0,
-            threePR=0,
-            certs=[]
-        )
+import BaseGem
 
 
 def confirm_input():

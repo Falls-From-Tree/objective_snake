@@ -6,7 +6,8 @@ class BaseGem():
             era=None,
             health=36,
             size=1,
-            movement_speed=8,
+            movement_speed=None,
+            flight_movement_speed=0,
             arms=2,
             caste_rank=None,
             action_slots=2,
@@ -23,8 +24,72 @@ class BaseGem():
             threePR=0,
             certs=[]
         )
-#    def mod_serial(new_serial):
-#        playerList[player].attributes['serial'] = new_serial
+
+    def mod_serial(self, new_serial):
+        self.attributes['serial'] = new_serial
+
+    def mod_stone(self, new_stone):
+        self.attributes['stone'] = new_stone
+
+    def mod_era(self, new_era):
+        self.attributes['era'] = new_era
+
+    def mod_health(self, health_mod):
+        self.attributes['health'] += health_mod
+
+    # size should probably always be powers of 2
+    # this also modifies movement_speed
+    def mod_size(self, new_size):
+        self.attributes['size'] = new_size
+        self.attributes['movementspeed'] = new_size*8
+
+    def mod_flight_movement_speed(self, flight_movement_speed_mod):
+        self.attributes['flight_movement_speed'] += flight_movement_speed_mod
+
+    def mod_arms(self, arms_mod):
+        self.attributes['arms'] += arms_mod
+
+    def mod_caste_rank(self, caste_rank_mod):
+        self.attributes['caste_rank'] += caste_rank_mod
+
+    def mod_action_slots(self, action_slots_mod):
+        self.attributes['action_slots'] += action_slots_mod
+
+    def mod_PP(self, PP_mod):
+        self.attributes['PP'] += PP_mod
+
+    def mod_SPR(self, SPR_mod):
+        self.attributes['SPR'] += SPR_mod
+
+    def mod_homo(self, mod_homo):
+        self.attributes['homo'] = mod_homo
+
+    def mod_hetro(self, mod_hetro):
+        self.attributes['hetro'] = mod_hetro
+
+    def mod_CPR(self, CPR_mod):
+        self.attributes['CPR'] += CPR_mod
+
+    def mod_attacking(self, mod_attacking):
+        self.attributes['attacking'] = mod_attacking
+
+    def mod_blocking(self, mod_blocking):
+        self.attributes['blocking'] = mod_blocking
+
+    def mod_disarming(self, mod_disarming):
+        self.attributes['disarming'] = mod_disarming
+
+    def mod_onePR(self, onePR_mod):
+        self.attributes['onePR'] += onePR_mod
+
+    def mod_twoPR(self, twoPR_mod):
+        self.attributes['twoPR'] += twoPR_mod
+
+    def mod_threePR(self, threePR_mod):
+        self.attributes['threePR'] += threePR_mod
+
+    def mod_certs(self, new_cert):
+        self.attributes['certs'].append(new_cert)
 
 
 def title():
@@ -105,7 +170,7 @@ def chooseStone(gem):
           '\n14) Pearl - the Servant - 1pp',
           '\n15) Bismuth - the Builder - 0pp'
           )
-# don't know why but this breaks it, causes chooseStone to infinatly loop
+#don't know why but this breaks it, causes chooseStone to infinatly loop
 #    gem_choice = intDecision(chooseStone(gem), min=0, max=15)
     """
     if gem_choice == 0:
