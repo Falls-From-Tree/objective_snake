@@ -170,7 +170,7 @@ def chooseStone(gem):
           '\n14) Pearl - the Servant - 1pp',
           '\n15) Bismuth - the Builder - 0pp'
           )
-#don't know why but this breaks it, causes chooseStone to infinatly loop
+# don't know why but this breaks it, causes chooseStone to infinatly loop
 #    gem_choice = intDecision(chooseStone(gem), min=0, max=15)
     """
     if gem_choice == 0:

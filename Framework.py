@@ -31,6 +31,12 @@ def title():
     print('\ngempire\n\n')
 
 
+def gem_init(players, player):  # sets up a single gem
+    choose_gem(players, player)
+    # chooe_era
+    # choose_diamond
+
+
 def choose_gem(players, player):
     print('choose your gemstone:\n',
           '\n0) Morganite - the Philosopher - 15pp',
@@ -52,43 +58,37 @@ def choose_gem(players, player):
           )
 
     gem_num = int_decision(min=0, max=15)
+    players[player].add_PP(gem_num - 15)
 
     if gem_num == 0:
-        players[player].attributes['stone'] = 'Morganite'
-        players[player].attributes['PP'] -= 15
-        players[player].attributes['SPR'] += 2
-        players[player].attributes['threePR'] += 1
+        players[player].set_stone('Morganite')
+        players[player].add_SPR(2)
+        players[player].add_threePR(1)
     elif gem_num == 1:
-        players[player].attributes['stone'] = 'Sapphire'
-        players[player].attributes['PP'] -= 14
-        players[player].attributes['SPR'] += 3
+        players[player].set_stone('Sapphire')
+        players[player].add_SPR(3)
     elif gem_num == 2:
-        players[player].attributes['stone'] = 'Lapis Lazuli'
-        players[player].attributes['PP'] -= 13
-        players[player].attributes['SPR'] += 1
-        players[player].attributes['threePR'] += 2
+        players[player].set_stone('Lapis Lazuli')
+        players[player].add_SPR(1)
+        players[player].add_threePR(2)
     elif gem_num == 3:
-        players[player].attributes['stone'] = 'Agate'
-        players[player].attributes['PP'] -= 12
-        players[player].attributes['SPR'] += 2
-        players[player].attributes['CPR'] += 2
+        players[player].set_stone('Agate')
+        players[player].add_SPR(2)
+        players[player].add_CPR(2)
     elif gem_num == 4:
-        players[player].attributes['stone'] = 'Aquamarine'
-        players[player].attributes['PP'] -= 11
-        players[player].attributes['SPR'] += 1
-        players[player].attributes['CPR'] += 1
-        players[player].attributes['threePR'] += 1
+        players[player].set_stone('Aquamarine')
+        players[player].add_SPR(1)
+        players[player].add_CPR(1)
+        players[player].add_threePR(1)
     elif gem_num == 5:
-        players[player].attributes['stone'] = 'Jasper'
-        players[player].attributes['PP'] -= 10
-        players[player].attributes['CPR'] += 1
-        players[player].attributes['blocking'] += 2
+        players[player].set_stone('Jasper')
+        players[player].add_CPR(1)
+        players[player].set_blocking(2)
     elif gem_num == 6:
-        players[player].attributes['stone'] = 'Topaze'
-        players[player].attributes['PP'] -= 9
-        players[player].attributes['SPR'] += 1
-        players[player].attributes['CPR'] += 1
-        players[player].attributes['threePR'] += 1
+        players[player].set_stone('Topaze')
+        players[player].add_SPR(1)
+        players[player].add_CPR(1)
+        players[player].add_threePR(1)
 
     elif gem_num == 7:
         pass
@@ -114,11 +114,11 @@ def init_players(num_players):
     players = [BaseGem() for i in range(
                int_decision('How many players?', min=1))]
 
-    for i in range(num_players):
+    for i in range(num_players):  # loops through all players
         print('Player {}, you have {} Proficiency Points to spend\n'.format(
               i, players[i].attributes['PP'])
               )
 
-        choose_gem(players, i)  # COMBINE CHOOSE AND INIT
+        gem_init(players, i)  # initilizes a player's gems
 
     return players
