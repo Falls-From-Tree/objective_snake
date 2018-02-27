@@ -5,3 +5,7 @@ To Do List:
   BUGS:
 
   SUGGESTED CHANGES:
+    Make BaseGem helpers throw an error if passed the wrong type:
+      Example:
+        BaseGem.add_PP('bleh')
+        $ ValueError
