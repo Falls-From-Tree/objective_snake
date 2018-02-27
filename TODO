@@ -3,6 +3,8 @@ To Do List:
   CRITICAL ERRORS:
 
   BUGS:
+    Attribute modifiers not totally filled in for choose_gem, choose_era, and
+      choose_diamond
 
   SUGGESTED CHANGES:
     Make BaseGem helpers throw an error if passed the wrong type:

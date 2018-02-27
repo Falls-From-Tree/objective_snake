@@ -31,12 +31,6 @@ def title():  # eventually will produce some sort of art
     print('\ngempire\n\n')
 
 
-def gem_init(players, player):  # sets up a single gem
-    choose_gem(players, player)
-    # chooe_era
-    # choose_diamond
-
-
 def choose_gem(players, player):
     print('choose your gemstone:\n',
           '\n0) Morganite - the Philosopher - 15pp',
@@ -58,8 +52,8 @@ def choose_gem(players, player):
           )
 
     gem_num = int_decision(min=0, max=15)
-    players[player].add_PP(gem_num - 15)
 
+    players[player].add_PP(gem_num - 15)
     if gem_num == 0:
         players[player].set_stone('Morganite')
         players[player].add_SPR(2)
@@ -89,7 +83,6 @@ def choose_gem(players, player):
         players[player].add_SPR(1)
         players[player].add_CPR(1)
         players[player].add_threePR(1)
-
     elif gem_num == 7:
         pass
     elif gem_num == 8:
@@ -108,6 +101,43 @@ def choose_gem(players, player):
         pass
     elif gem_num == 15:
         pass
+
+
+def choose_era(players, player):
+    print('choose your era:\n',
+          '\n0) Era One',
+          '\n1) Era Two',
+          '\n2) Era Three'
+          )
+
+    era_num = int_decision(min=0, max=2)
+
+    if era_num == 0:
+        pass
+    elif era_num == 1:
+        pass
+    elif era_num == 2:
+        pass
+
+
+def choose_diamond(players, player):
+    print('choose your diamond:\n',
+          '\n0) Blue Diamond',
+          '\n1) Yellow Diamond'
+          )
+
+    diamond_num = int_decision(min=0, max=1)
+
+    if diamond_num == 0:
+        pass
+    else:
+        pass
+
+
+def gem_init(players, player):  # sets up a single gem
+    choose_gem(players, player)
+    choose_era(players, player)
+    choose_diamond(players, player)
 
 
 def init_players():
