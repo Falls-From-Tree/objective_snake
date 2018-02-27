@@ -1,7 +1,14 @@
 import Gems
 
 
-def confirm_input():
+""" Framework/Actions for UI.py
+
+    These low level helper funcitons enable UI.py to remain clean. Most methods
+should remain modular and be mixed and matched in UI.py to form a game.
+"""
+
+
+def confirm_input():  # helper for int_decision, confirms player's choice
     while(True):
         print('confirm? (y/n)')
         option = input('> ')
@@ -11,8 +18,8 @@ def confirm_input():
             return False
 
 
-def int_decision(text=None, min=None, max=None):
-    while(True):
+def int_decision(text=None, min=None, max=None):  # modular method for integer
+    while(True):                                  # decisions, returns int
         if text is not None:
             print(text)
         try:
@@ -27,11 +34,11 @@ def int_decision(text=None, min=None, max=None):
             print('///invalid///\n> ')
 
 
-def title():  # eventually will produce some sort of art
+def title():  # display title art
     print('\ngempire\n\n')
 
 
-def choose_gem(players, player):
+def choose_gem(player):  # initilize a gem's base stats
     print('\nchoose your gemstone:\n',
           '\n0) Morganite - the Philosopher - 15pp',
           '\n1) Sapphire - the Advocate - 14pp',
@@ -53,36 +60,36 @@ def choose_gem(players, player):
 
     gem_num = int_decision(min=0, max=15)
 
-    players[player].add_PP(gem_num - 15)
+    player.add_PP(gem_num - 15)
     if gem_num == 0:
-        players[player].set_stone('Morganite')
-        players[player].add_SPR(2)
-        players[player].add_threePR(1)
+        player.set_stone('Morganite')
+        player.add_SPR(2)
+        player.add_threePR(1)
     elif gem_num == 1:
-        players[player].set_stone('Sapphire')
-        players[player].add_SPR(3)
+        player.set_stone('Sapphire')
+        player.add_SPR(3)
     elif gem_num == 2:
-        players[player].set_stone('Lapis Lazuli')
-        players[player].add_SPR(1)
-        players[player].add_threePR(2)
+        player.set_stone('Lapis Lazuli')
+        player.add_SPR(1)
+        player.add_threePR(2)
     elif gem_num == 3:
-        players[player].set_stone('Agate')
-        players[player].add_SPR(2)
-        players[player].add_CPR(2)
+        player.set_stone('Agate')
+        player.add_SPR(2)
+        player.add_CPR(2)
     elif gem_num == 4:
-        players[player].set_stone('Aquamarine')
-        players[player].add_SPR(1)
-        players[player].add_CPR(1)
-        players[player].add_threePR(1)
+        player.set_stone('Aquamarine')
+        player.add_SPR(1)
+        player.add_CPR(1)
+        player.add_threePR(1)
     elif gem_num == 5:
-        players[player].set_stone('Jasper')
-        players[player].add_CPR(1)
-        players[player].set_blocking(2)
+        player.set_stone('Jasper')
+        player.add_CPR(1)
+        player.set_blocking(2)
     elif gem_num == 6:
-        players[player].set_stone('Topaze')
-        players[player].add_SPR(1)
-        players[player].add_CPR(1)
-        players[player].add_threePR(1)
+        player.set_stone('Topaze')
+        player.add_SPR(1)
+        player.add_CPR(1)
+        player.add_threePR(1)
     elif gem_num == 7:
         pass
     elif gem_num == 8:
@@ -103,7 +110,7 @@ def choose_gem(players, player):
         pass
 
 
-def choose_era(players, player):
+def choose_era(player):  # modify base stats for era
     print('\nchoose your era:\n',
           '\n0) Era One',
           '\n1) Era Two',
@@ -120,7 +127,7 @@ def choose_era(players, player):
         pass
 
 
-def choose_diamond(players, player):
+def choose_diamond(player):  # modify base stats for diamond
     print('\nchoose your diamond:\n',
           '\n0) Blue Diamond',
           '\n1) Yellow Diamond'
@@ -134,13 +141,7 @@ def choose_diamond(players, player):
         pass
 
 
-def gem_init(players, player):  # sets up a single gem
-    choose_gem(players, player)
-    choose_era(players, player)
-    choose_diamond(players, player)
-
-
-def init_players():
+def init_players():  # initilize all player characters
     players = [Gems.BaseGem() for i in
                range(int_decision('How many players?', min=1))]
 
@@ -149,6 +150,12 @@ def init_players():
               i, players[i].add_PP())
               )
 
-        gem_init(players, i)  # initilizes a player's gems
+        choose_gem(players[i])  # initilizes a gem's base stats
+        choose_era(players[i])  # modifies base stats for era
+        choose_diamond(players[i])  # modifies base stats for diamond
+        # choose_abilities(players, i)  # player chooses starting abilities
+        # choose_weapons(players, i)  # player chooses starting weapons
+        # choose_serial(players, i)  # player chooses serial
+        # ... other choices
 
     return players
