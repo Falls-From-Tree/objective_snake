@@ -78,13 +78,8 @@ def choose_gem(player):  # initilize a gem's base stats
         player.set_stone('Morganite')
         player.add_SPR(2)
         player.add_threePR(1)
-        abilities = dict(
-            shapeshifting=-1,
-            bubbling=-2,
-            shocking=-2,
-            intent_telethesia=-3
-        )
-        player.set_abilities(abilities)
+        player.add_ability('shocking', -2)
+        player.add_ability('intent_telethesia', -3)
     elif gem_num is 1:
         player.set_stone('Sapphire')
         player.add_SPR(3)

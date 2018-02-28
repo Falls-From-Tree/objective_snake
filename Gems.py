@@ -33,7 +33,7 @@ class BaseGem():
             twoPR=0,
             threePR=0,
             certs=[],
-            abilities={}
+            abilities={'bubbling': -2, 'shape_shifting': -1}
         )
 
 #
@@ -154,11 +154,6 @@ class BaseGem():
             self.__attributes['certs'].append(new_cert)
         return self.__attributes['certs']
 
-    def set_abilities(self, abilities=None):
-        if abilities is not None:
-            self.__attributes['abilities'] = abilities
-        return self.__attributes['abilities']
-
     def ability_list(self):
         return list(self.__attributes['abilities'].keys())
 
@@ -180,6 +175,10 @@ class BaseGem():
             return self.__attributes['abilities'][ability]
         else:
             return -1
+
+    def add_ability(self, ability, level):
+        if ability not in self.__attributes['abilities']:
+            self.__attributes['abilities'][ability] = level
 
     def rm_ability(self, ability):
         return self.__attributes['abilities'].pop(ability)
