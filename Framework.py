@@ -12,9 +12,9 @@ def confirm_input():  # helper for int_decision, confirms player's choice
     while True:
         print('confirm? (y/n)')
         option = input('> ')
-        if option == 'y':
+        if option is 'y':
             return True
-        elif option == 'n':
+        elif option is 'n':
             return False
 
 
@@ -41,7 +41,8 @@ def pp_decision(player, costs, balance, text=None):
             print('///not enough pp///')
             decision = int_decision(min=0, max=len(costs) - 1)
         else:
-            return player.add_PP(-costs[decision])
+            player.add_PP(-costs[decision])
+            return decision
 
 
 def title():  # display title art
@@ -73,52 +74,59 @@ def choose_gem(player):  # initilize a gem's base stats
     gem_num = int_decision(choices, 0, 15)
 
     player.add_PP(gem_num - 15)
-    if gem_num == 0:
+    if gem_num is 0:
         player.set_stone('Morganite')
         player.add_SPR(2)
         player.add_threePR(1)
-    elif gem_num == 1:
+        abilities = dict(
+            shapeshifting=-1,
+            bubbling=-2,
+            shocking=-2,
+            intent_telethesia=-3
+        )
+        player.set_abilities(abilities)
+    elif gem_num is 1:
         player.set_stone('Sapphire')
         player.add_SPR(3)
-    elif gem_num == 2:
+    elif gem_num is 2:
         player.set_stone('Lapis Lazuli')
         player.add_SPR(1)
         player.add_threePR(2)
-    elif gem_num == 3:
+    elif gem_num is 3:
         player.set_stone('Agate')
         player.add_SPR(2)
         player.add_CPR(2)
-    elif gem_num == 4:
+    elif gem_num is 4:
         player.set_stone('Aquamarine')
         player.add_SPR(1)
         player.add_CPR(1)
         player.add_threePR(1)
-    elif gem_num == 5:
+    elif gem_num is 5:
         player.set_stone('Jasper')
         player.add_CPR(1)
         player.set_blocking(2)
-    elif gem_num == 6:
+    elif gem_num is 6:
         player.set_stone('Topaze')
         player.add_SPR(1)
         player.add_CPR(1)
         player.add_threePR(1)
-    elif gem_num == 7:
+    elif gem_num is 7:
         pass
-    elif gem_num == 8:
+    elif gem_num is 8:
         pass
-    elif gem_num == 9:
+    elif gem_num is 9:
         pass
-    elif gem_num == 10:
+    elif gem_num is 10:
         pass
-    elif gem_num == 11:
+    elif gem_num is 11:
         pass
-    elif gem_num == 12:
+    elif gem_num is 12:
         pass
-    elif gem_num == 13:
+    elif gem_num is 13:
         pass
-    elif gem_num == 14:
+    elif gem_num is 14:
         pass
-    elif gem_num == 15:
+    elif gem_num is 15:
         pass
 
 
@@ -134,21 +142,32 @@ def choose_era(player):  # modify base stats for era
     era_choice = pp_decision(player, {0: 16, 1: 8, 2: 0},
                              player.add_PP(), choices)
 
-    if era_choice == 0:
-        player.add_PP(-16)
+    if era_choice is 0:
         player.add_SPR(2)
         player.add_onePR(1)
         player.add_twoPR(1)
-    elif era_choice == 1:
-        player.add_PP(-8)
+        for a in player.ability_list():
+            player.set_ability_level(a, 0)
+    elif era_choice is 1:
         player.add_SPR(1)
         player.add_twoPR(1)
+        for a in player.ability_list():
+            if player.set_ability_level(a) > -2:
+                player.rm_ability(a)
+            else:
+                player.set_ability_level(a, 0)
+    else:
+        for a in player.ability_list():
+            if player.set_ability_level(a) > -3:
+                player.rm_ability(a)
+            else:
+                player.set_ability_level(a, 0)
 
 
-def choose_weapons(player):  # player can buy weapons with this function
-    if player.set_era() == 0:
+def upgrade_weapons(player):  # player can buy weapons with this function
+    if player.set_era() is 0:
         pass
-    elif player.set_era() == 1:
+    elif player.set_era() is 1:
         pass
 
 
@@ -159,14 +178,42 @@ def choose_diamond(player):  # modify base stats for diamond
 
     diamond_num = int_decision(choices, 0, 1)
 
-    if diamond_num == 0:
+    if diamond_num is 0:
         player.set_diamond('Blue')
     else:
         player.set_diamond('Yellow')
 
 
-def choose_abilities(player):  # player can buy abilities with this funciton
-    pass
+def upgrade_abilities(player):  # player can buy abilities with this funciton
+    done = False
+    while player.can_upgrade() and not done:
+        print('\nPlayer {}, you have {} '
+              'Proficiency Points to spend\n'.format(
+               player.set_serial(), player.add_PP())
+              )
+        print('\nupgrade an ability?(n to exit)')
+        for a in player.ability_list():
+            if player.set_ability_level(a) < 4:
+                if player.set_ability_level(a) is 0:
+                    print('\n{} is not'.format(a.replace('_', ' ')),
+                          'unlocked - 1pp')
+                else:
+                    print('\n{} is level'.format(a.replace('_', ' ')),
+                          '{} - 1pp'.format(player.add_ability_level(a)))
+
+        while True:
+            decision = input('> ').replace(' ', '_')
+            if decision is not 'n':
+                if (player.is_ability(decision) and
+                   player.set_ability_level(decision) < 4):
+                    player.add_PP(-1)
+                    player.add_ability_level(decision, 1)
+                    break
+                else:
+                    print('///invalid///')
+            else:
+                done = True
+                break
 
 
 def choose_serial(player):  # player sets new_serial
@@ -180,9 +227,9 @@ def init_players():  # initilize all player characters
     for i in range(len(players)):  # loops through all players
         choose_gem(players[i])  # initilizes a gem's base stats
         choose_era(players[i])  # modifies base stats for era
-        choose_weapons(players[i])  # player chooses starting weapons
+        upgrade_weapons(players[i])  # player chooses starting weapons
         choose_diamond(players[i])  # modifies base stats for diamond
-        choose_abilities(players[i])  # player chooses starting abilities
+        upgrade_abilities(players[i])  # player chooses starting abilities
         choose_serial(players[i])  # player chooses serial
         # ... other choices
 

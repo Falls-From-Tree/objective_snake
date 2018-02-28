@@ -8,7 +8,7 @@ utilizing child classes.
 
 
 class BaseGem():
-    def __init__(self, init_serial):  # add weapon size, possible abilities
+    def __init__(self, init_serial):
         self.__attributes = dict(
             serial=init_serial,
             stone=None,
@@ -32,7 +32,8 @@ class BaseGem():
             onePR=0,
             twoPR=0,
             threePR=0,
-            certs=[]
+            certs=[],
+            abilities={}
         )
 
 #
@@ -153,6 +154,52 @@ class BaseGem():
             self.__attributes['certs'].append(new_cert)
         return self.__attributes['certs']
 
+    def set_abilities(self, abilities=None):
+        if abilities is not None:
+            self.__attributes['abilities'] = abilities
+        return self.__attributes['abilities']
+
+    def ability_list(self):
+        return list(self.__attributes['abilities'].keys())
+
+    def is_ability(self, ability):
+        return ability in self.__attributes['abilities']
+
+    def set_ability_level(self, ability, new_level=None):
+        if ability in self.__attributes['abilities']:
+            if new_level is not None:
+                self.__attributes['abilities'][ability] = new_level
+            return self.__attributes['abilities'][ability]
+        else:
+            return -1
+
+    def add_ability_level(self, ability, level_mod=None):
+        if ability in self.__attributes['abilities']:
+            if level_mod is not None:
+                self.__attributes['abilities'][ability] += level_mod
+            return self.__attributes['abilities'][ability]
+        else:
+            return -1
+
+    def rm_ability(self, ability):
+        return self.__attributes['abilities'].pop(ability)
+
+    def can_upgrade(self):
+        if self.__attributes['PP'] > 0:
+            for a in self.__attributes['abilities']:
+                if self.__attributes['abilities'][a] < 4:
+                    return True
+        return False
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~END OF HELPER CLASSES~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ABILITIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    def print_abilities(self):
+        for a in self.__attributes['abilities']:
+            print(a)
+
+    def print_unlocked_abilities(self):
+        for a in self.__attributes['abilities']:
+            if self.__attributes['abilities'][a] > -1:
+                print(a)
