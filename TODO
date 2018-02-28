@@ -11,3 +11,6 @@ To Do List:
       Example:
         BaseGem.add_PP('bleh')
         $ ValueError
+      Maybe do this by forcing type of param?
+
+    Shopping cart view after char creation

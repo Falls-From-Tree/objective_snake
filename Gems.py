@@ -8,17 +8,18 @@ utilizing child classes.
 
 
 class BaseGem():
-    def __init__(self):  # add weapon size, possible abilities
+    def __init__(self, init_serial):  # add weapon size, possible abilities
         self.__attributes = dict(
-            serial=None,
+            serial=init_serial,
             stone=None,
             era=None,
             health=36,
             size=1,
             movement_speed=8,
             flight_movement_speed=0,
-            arms=2,
+            arms=[],
             caste_rank=None,
+            diamond='',
             action_slots=2,
             PP=31,
             SPR=0,
@@ -74,15 +75,18 @@ class BaseGem():
             self.__attributes['flight_movement_speed'] += f_movement_speed_mod
         return self.__attributes['flight_movement_speed']
 
-    def add_arms(self, arms_mod=None):
-        if arms_mod is not None:
-            self.__attributes['arms'] += arms_mod
+    def get_arms(self):
         return self.__attributes['arms']
 
     def add_caste_rank(self, caste_rank_mod=None):
         if caste_rank_mod is not None:
             self.__attributes['caste_rank'] += caste_rank_mod
         return self.__attributes['caste_rank']
+
+    def set_diamond(self, new_diamond=None):
+        if new_diamond is not None:
+            self.__attributes['diamond'] = new_diamond
+        return self.__attributes['diamond']
 
     def add_action_slots(self, action_slots_mod=None):
         if action_slots_mod is not None:

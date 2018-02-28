@@ -9,7 +9,7 @@ should remain modular and be mixed and matched in UI.py to form a game.
 
 
 def confirm_input():  # helper for int_decision, confirms player's choice
-    while(True):
+    while True:
         print('confirm? (y/n)')
         option = input('> ')
         if option == 'y':
@@ -21,7 +21,7 @@ def confirm_input():  # helper for int_decision, confirms player's choice
 def int_decision(text=None, min=None, max=None):  # modular method for integer
     if text is not None:                          # decisions, returns int
         print(text)
-    while(True):
+    while True:
         try:
             decision = int(input('> '))
             if ((min is None or decision >= min) &
@@ -34,11 +34,24 @@ def int_decision(text=None, min=None, max=None):  # modular method for integer
             print('///invalid///')
 
 
+def pp_decision(player, costs, balance, text=None):
+    decision = int_decision(text, 0, len(costs) - 1)
+    while True:
+        if costs[decision] > balance:
+            print('///not enough pp///')
+            decision = int_decision(min=0, max=len(costs) - 1)
+        else:
+            return player.add_PP(-costs[decision])
+
+
 def title():  # display title art
     print('\ngempire\n\n')
 
 
 def choose_gem(player):  # initilize a gem's base stats
+    print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
+          player.set_serial(), player.add_PP())
+          )
     choices = """\nchoose your gemstone:
                  \n0) Morganite - the Philosopher - 15pp
                  \n1) Sapphire - the Advocate - 14pp
@@ -57,7 +70,7 @@ def choose_gem(player):  # initilize a gem's base stats
                  \n14) Pearl - the Servant - 1pp
                  \n15) Bismuth - the Builder - 0pp"""
 
-    gem_num = int_decision(choices, min=0, max=15)
+    gem_num = int_decision(choices, 0, 15)
 
     player.add_PP(gem_num - 15)
     if gem_num == 0:
@@ -110,18 +123,32 @@ def choose_gem(player):  # initilize a gem's base stats
 
 
 def choose_era(player):  # modify base stats for era
+    print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
+          player.set_serial(), player.add_PP())
+          )
     choices = """\nchoose your era:
-                 \n0) Era One
-                 \n1) Era Two'
-                 \n2) Era Three"""
+                 \n0) Era One - 16pp
+                 \n1) Era Two - 8pp'
+                 \n2) Era Three - 0pp"""
 
-    era_num = int_decision(choices, min=0, max=2)
+    era_choice = pp_decision(player, {0: 16, 1: 8, 2: 0},
+                             player.add_PP(), choices)
 
-    if era_num == 0:
+    if era_choice == 0:
+        player.add_PP(-16)
+        player.add_SPR(2)
+        player.add_onePR(1)
+        player.add_twoPR(1)
+    elif era_choice == 1:
+        player.add_PP(-8)
+        player.add_SPR(1)
+        player.add_twoPR(1)
+
+
+def choose_weapons(player):  # player can buy weapons with this function
+    if player.set_era() == 0:
         pass
-    elif era_num == 1:
-        pass
-    elif era_num == 2:
+    elif player.set_era() == 1:
         pass
 
 
@@ -130,29 +157,33 @@ def choose_diamond(player):  # modify base stats for diamond
                  \n0) Blue Diamond
                  \n1) Yellow Diamond"""
 
-    diamond_num = int_decision(choices, min=0, max=1)
+    diamond_num = int_decision(choices, 0, 1)
 
     if diamond_num == 0:
-        pass
+        player.set_diamond('Blue')
     else:
-        pass
+        player.set_diamond('Yellow')
+
+
+def choose_abilities(player):  # player can buy abilities with this funciton
+    pass
+
+
+def choose_serial(player):  # player sets new_serial
+    pass
 
 
 def init_players():  # initilize all player characters
-    players = [Gems.BaseGem() for i in
-               range(int_decision('How many players?', min=1))]
+    players = [Gems.BaseGem(i) for i in
+               range(int_decision('How many players?', 1))]
 
     for i in range(len(players)):  # loops through all players
-        print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
-              i, players[i].add_PP())
-              )
-
         choose_gem(players[i])  # initilizes a gem's base stats
         choose_era(players[i])  # modifies base stats for era
+        choose_weapons(players[i])  # player chooses starting weapons
         choose_diamond(players[i])  # modifies base stats for diamond
-        # choose_abilities(players, i)  # player chooses starting abilities
-        # choose_weapons(players, i)  # player chooses starting weapons
-        # choose_serial(players, i)  # player chooses serial
+        choose_abilities(players[i])  # player chooses starting abilities
+        choose_serial(players[i])  # player chooses serial
         # ... other choices
 
     return players
