@@ -1,6 +1,5 @@
 import Gems
 
-
 """ Framework/Actions for UI.py
 
     These low level helper funcitons enable UI.py to remain clean. Most methods
@@ -51,7 +50,8 @@ def title():  # display title art
 
 def choose_gem(player):  # initilize a gem's base stats
     print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
-          player.set_serial(), player.add_PP())
+          player.get_serial(),
+          player.get_PP()
           )
     choices = """\nchoose your gemstone:
                  \n0) Morganite - the Philosopher - 15pp
@@ -73,61 +73,43 @@ def choose_gem(player):  # initilize a gem's base stats
 
     gem_num = int_decision(choices, 0, 15)
 
-    player.add_PP(gem_num - 15)
     if gem_num is 0:
-        player.set_stone('Morganite')
-        player.add_SPR(2)
-        player.add_threePR(1)
-        player.add_ability('shocking', -2)
-        player.add_ability('intent_telethesia', -3)
+        player.__init__mor__()
     elif gem_num is 1:
-        player.set_stone('Sapphire')
-        player.add_SPR(3)
+        player.__init__sap__()
     elif gem_num is 2:
-        player.set_stone('Lapis Lazuli')
-        player.add_SPR(1)
-        player.add_threePR(2)
+        player.__init__lap__()
     elif gem_num is 3:
-        player.set_stone('Agate')
-        player.add_SPR(2)
-        player.add_CPR(2)
+        player.__init__aga__()
     elif gem_num is 4:
-        player.set_stone('Aquamarine')
-        player.add_SPR(1)
-        player.add_CPR(1)
-        player.add_threePR(1)
+        player.__init__aqu__()
     elif gem_num is 5:
-        player.set_stone('Jasper')
-        player.add_CPR(1)
-        player.set_blocking(2)
+        player.__init__jas__()
     elif gem_num is 6:
-        player.set_stone('Topaze')
-        player.add_SPR(1)
-        player.add_CPR(1)
-        player.add_threePR(1)
+        player.__init__top__()
     elif gem_num is 7:
-        pass
+        player.__init__zir__()
     elif gem_num is 8:
-        pass
+        player.__init__per__()
     elif gem_num is 9:
-        pass
+        player.__init__ame__()
     elif gem_num is 10:
-        pass
+        player.__init__car__()
     elif gem_num is 11:
-        pass
+        player.__init__lap__()
     elif gem_num is 12:
-        pass
+        player.__init__rut__()
     elif gem_num is 13:
-        pass
+        player.__init__rub__()
     elif gem_num is 14:
-        pass
+        player.__init__per__()
     elif gem_num is 15:
-        pass
+        player.__init__bis__()
 
 
 def choose_era(player):  # modify base stats for era
     print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
-          player.set_serial(), player.add_PP())
+          player.__attributes['serial'], player.__attributes['PP'])
           )
     choices = """\nchoose your era:
                  \n0) Era One - 16pp
@@ -135,28 +117,14 @@ def choose_era(player):  # modify base stats for era
                  \n2) Era Three - 0pp"""
 
     era_choice = pp_decision(player, {0: 16, 1: 8, 2: 0},
-                             player.add_PP(), choices)
+                             player.__attributes['PP'], choices)
 
     if era_choice is 0:
-        player.add_SPR(2)
-        player.add_onePR(1)
-        player.add_twoPR(1)
-        for a in player.ability_list():
-            player.set_ability_level(a, 0)
+        player.__init__era__one()
     elif era_choice is 1:
-        player.add_SPR(1)
-        player.add_twoPR(1)
-        for a in player.ability_list():
-            if player.set_ability_level(a) > -2:
-                player.rm_ability(a)
-            else:
-                player.set_ability_level(a, 0)
+        player.__init__era__two()
     else:
-        for a in player.ability_list():
-            if player.set_ability_level(a) > -3:
-                player.rm_ability(a)
-            else:
-                player.set_ability_level(a, 0)
+        player.__init__era__three()
 
 
 def upgrade_weapons(player):  # player can buy weapons with this function
@@ -179,15 +147,18 @@ def choose_diamond(player):  # modify base stats for diamond
         player.set_diamond('Yellow')
 
 
+"""
 def upgrade_abilities(player):  # player can buy abilities with this funciton
     done = False
-    while player.can_upgrade() and not done:
+    while player.__attributes['PP'] > 0 and not done:
         print('\nPlayer {}, you have {} '
               'Proficiency Points to spend\n'.format(
-               player.set_serial(), player.add_PP())
+               player.__attributes['serial'], player.__attributes['PP'])
               )
         print('\nupgrade an ability?(n to exit)')
-        for a in player.ability_list():
+        for a in player.__attributes['avalible_abilities']:
+
+
             if player.set_ability_level(a) < 4:
                 if player.set_ability_level(a) is 0:
                     print('\n{} is not'.format(a.replace('_', ' ')),
@@ -209,6 +180,7 @@ def upgrade_abilities(player):  # player can buy abilities with this funciton
             else:
                 done = True
                 break
+"""
 
 
 def choose_serial(player):  # player sets new_serial
@@ -216,7 +188,7 @@ def choose_serial(player):  # player sets new_serial
 
 
 def init_players():  # initilize all player characters
-    players = [Gems.BaseGem(i) for i in
+    players = [Gems.BaseGem().__init__gem__() for i in
                range(int_decision('How many players?', 1))]
 
     for i in range(len(players)):  # loops through all players
@@ -224,7 +196,7 @@ def init_players():  # initilize all player characters
         choose_era(players[i])  # modifies base stats for era
         upgrade_weapons(players[i])  # player chooses starting weapons
         choose_diamond(players[i])  # modifies base stats for diamond
-        upgrade_abilities(players[i])  # player chooses starting abilities
+#        upgrade_abilities(players[i])  # player chooses starting abilities
         choose_serial(players[i])  # player chooses serial
         # ... other choices
 
