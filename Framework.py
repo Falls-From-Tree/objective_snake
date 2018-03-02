@@ -40,7 +40,7 @@ def pp_decision(player, costs, balance, text=None):
             print('///not enough pp///')
             decision = int_decision(min=0, max=len(costs) - 1)
         else:
-            player.add_PP(-costs[decision])
+            player.mod_PP(-costs[decision])
             return decision
 
 
@@ -48,28 +48,29 @@ def title():  # display title art
     print('\ngempire\n\n')
 
 
+# I made the costs go from 16-1 instead of 15-0. When ever I thik I know a better way to do somthing that is writen in the doc, I do it but than gradually come to relaize why I had it writen in the doc the first way and then change it back. It was from 16-1 cause off-colros would theroeticly be 0.
 def choose_gem(player):  # initilize a gem's base stats
     print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
           player.get_serial(),
           player.get_PP()
-          )
+          ))
     choices = """\nchoose your gemstone:
-                 \n0) Morganite - the Philosopher - 15pp
-                 \n1) Sapphire - the Advocate - 14pp
-                 \n2) Lapis Lazuli - the Planner - 13pp
-                 \n3) Agate - the Superintendent - 12pp
-                 \n4) Aquamarine - the Inquisitor - 11pp
-                 \n5) Jasper - the Intendent - 10pp
-                 \n6) Topaze - the Specialist - 9pp
-                 \n7) Zircon - the Attorney - 8pp
-                 \n8) Peridot - the Technician - 7pp
-                 \n9) Amethyst - the Trooper - 6pp
-                 \n10) Carnelian - the Stormtrooper - 5pp
-                 \n11) Nephrite - the Aviator - 4pp
-                 \n12) Rutile - the Enforcer - 3pp
-                 \n13) Ruby - the Guardian - 2pp
-                 \n14) Pearl - the Servant - 1pp
-                 \n15) Bismuth - the Builder - 0pp"""
+                 \n0) Morganite - the Philosopher - 16pp
+                 \n1) Sapphire - the Advocate - 15pp
+                 \n2) Lapis Lazuli - the Planner - 14pp
+                 \n3) Agate - the Superintendent - 13pp
+                 \n4) Aquamarine - the Inquisitor - 12pp
+                 \n5) Jasper - the Intendent - 11pp
+                 \n6) Topaze - the Specialist - 10pp
+                 \n7) Zircon - the Attorney - 9pp
+                 \n8) Peridot - the Technician - 8pp
+                 \n9) Amethyst - the Trooper - 7pp
+                 \n10) Carnelian - the Stormtrooper - 6pp
+                 \n11) Nephrite - the Aviator - 5pp
+                 \n12) Rutile - the Enforcer - 4pp
+                 \n13) Ruby - the Guardian - 3pp
+                 \n14) Pearl - the Servant - 2pp
+                 \n15) Bismuth - the Builder - 1pp"""
 
     gem_num = int_decision(choices, 0, 15)
 
@@ -109,28 +110,28 @@ def choose_gem(player):  # initilize a gem's base stats
 
 def choose_era(player):  # modify base stats for era
     print('\nPlayer {}, you have {} Proficiency Points to spend\n'.format(
-          player.__attributes['serial'], player.__attributes['PP'])
-          )
+          player.get_serial(), player.get_PP()
+          ))
     choices = """\nchoose your era:
                  \n0) Era One - 16pp
                  \n1) Era Two - 8pp'
                  \n2) Era Three - 0pp"""
 
     era_choice = pp_decision(player, {0: 16, 1: 8, 2: 0},
-                             player.__attributes['PP'], choices)
+                             player.get_PP(), choices)
 
     if era_choice is 0:
-        player.__init__era__one()
+        player.__init__era__one__()
     elif era_choice is 1:
-        player.__init__era__two()
+        player.__init__era__two__()
     else:
-        player.__init__era__three()
+        player.__init__era__three__()
 
 
 def upgrade_weapons(player):  # player can buy weapons with this function
-    if player.set_era() is 0:
+    if player.get_era() is 1:
         pass
-    elif player.set_era() is 1:
+    elif player.set_era() is 2:
         pass
 
 
@@ -142,11 +143,12 @@ def choose_diamond(player):  # modify base stats for diamond
     diamond_num = int_decision(choices, 0, 1)
 
     if diamond_num is 0:
-        player.set_diamond('Blue')
+        player.mod_diamond('Blue')
     else:
-        player.set_diamond('Yellow')
+        player.mod_diamond('Yellow')
 
 
+# I commented this out just to simplfy my experiments
 """
 def upgrade_abilities(player):  # player can buy abilities with this funciton
     done = False
@@ -188,7 +190,7 @@ def choose_serial(player):  # player sets new_serial
 
 
 def init_players():  # initilize all player characters
-    players = [Gems.BaseGem().__init__gem__() for i in
+    players = [Gems.BaseGem() for i in
                range(int_decision('How many players?', 1))]
 
     for i in range(len(players)):  # loops through all players

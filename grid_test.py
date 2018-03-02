@@ -9,9 +9,9 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 # Grab some test data.
-X = np.array([[0],[100],[0],[0]])
-Y = np.array([[0],[0],[0],[0]])
-Z = np.array([[0],[100],[0],[0]])
+X = np.array([[0], [100], [0], [0]])
+Y = np.array([[0], [0], [0], [0]])
+Z = np.array([[0], [100], [0], [0]])
 
 print(axes3d.get_test_data(0.05))
 # Plot a basic wireframe.

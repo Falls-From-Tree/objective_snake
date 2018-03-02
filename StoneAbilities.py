@@ -1,5 +1,7 @@
+# I think this is a better way to handle abilites, though maybe not the best. I think obejcts are the way to go along with gems, arms, and hardlight weapons, and hardlight weapon abilites
+
 class StoneAbility():
-    def __init__ranks__(self):
+    def __init__(self):
         self.rank = 0
 
     def shapeshifting(self, rank_up=False):
